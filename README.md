@@ -11,7 +11,7 @@
   <img src="screenshots/sheep-win.png" width="200" alt="Ovečky zaplnily ovčinec">
 </p>
 
-> Tohle repozitář je prezentace projektu. Zdrojový kód je soukromý. *English below.*
+> Tento repozitář je jen prezentace projektu. Zdrojový kód je soukromý. *English below.*
 
 ---
 
