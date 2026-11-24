@@ -1,107 +1,109 @@
-# 🐑 Sheep & Wolves · Ovečky a vlci
+# 🐑 Ovečky a vlci · Sheep & Wolves
 
-A classic two-player board game, rebuilt as an installable web app – play the computer, a friend online, or pass one device around.
+**Stará desková hra pro dva jako moderní webová aplikace – hraj proti počítači, s kamarádem po síti, nebo na jednom zařízení.**
 
-**▶️ Play now: [ovecky-a-vlci.petrstastny.workers.dev](https://ovecky-a-vlci.petrstastny.workers.dev) · [English version](https://ovecky-a-vlci.petrstastny.workers.dev/en)**
-
-<p align="center">
-  <img src="screenshots/home.png" width="200" alt="Home screen">
-  <img src="screenshots/game-day.png" width="200" alt="Game against the computer">
-  <img src="screenshots/game-night-online.png" width="200" alt="Online game at night with chat">
-  <img src="screenshots/sheep-win.png" width="200" alt="The sheep filled the pen">
-</p>
-
-> This repository is a project showcase. The source code is private.
-
-## The game
-
-Twenty sheep against two wolves on a cross-shaped board.
-
-- **The sheep** win by filling the pen – nine points behind the wooden fence. They only move forward or sideways, never back.
-- **The wolves** win by catching 12 sheep. They jump over a sheep like in checkers, chain multiple jumps, and must catch when they can – a wolf that misses a catch is removed from the game.
-- The sheep may not trap the wolves; their only way to win is to bring the flock home.
-
-It is an old folk game (a relative of Fox and Geese and Halatafl) I played as a kid. I wanted a version that feels good on a phone and has an opponent strong enough to be fun.
-
-## What it can do
-
-### Three ways to play
-
-- **Against the computer** – easy, medium and hard, as sheep, wolves or a random side. The computer runs in a Web Worker, so the game stays smooth and works fully offline.
-- **With a friend online** – share a code or link; real-time game over WebSockets with chat, rematch and reconnect.
-- **On one device** – pass the phone or tablet around.
-
-### Profiles without registration
-
-- Nickname and animal avatar – no e-mail, no password.
-- Secured with **passkeys** (Face ID, Touch ID, Windows Hello, Android), or move to another device with a one-time code / QR.
-- Elo rating, leaderboard, game history and stats.
-- 8 badges for real achievements – win streaks against the hard computer, a win without losing a single sheep, beating a much higher-rated player…
-
-### Made for the phone
-
-- Installable PWA for iPhone, Android, Mac and Windows, works offline.
-- Day and night theme, animations, sound effects and optional background music.
-- Czech and English, the board flips for the wolves player, move history with board notation.
+▶️ **Zahrát si:** [ovecky-a-vlci.petrstastny.workers.dev](https://ovecky-a-vlci.petrstastny.workers.dev) · [English version](https://ovecky-a-vlci.petrstastny.workers.dev/en)
 
 <p align="center">
-  <img src="screenshots/desktop.png" width="800" alt="Desktop layout with move history and chat">
-  <br>
-  <em>Desktop layout with move history and chat</em>
+  <img src="screenshots/home.png" width="200" alt="Úvodní obrazovka">
+  <img src="screenshots/game-day.png" width="200" alt="Hra proti počítači">
+  <img src="screenshots/game-night-online.png" width="200" alt="Hra po síti v noci s chatem">
+  <img src="screenshots/sheep-win.png" width="200" alt="Ovečky zaplnily ovčinec">
 </p>
 
-<p align="center">
-  <img src="screenshots/multi-jump.png" width="200" alt="Multi-jump with highlighted path">
-  <img src="screenshots/passkeys.png" width="200" alt="Passkeys in the profile">
-  <img src="screenshots/home-night.png" width="200" alt="Night theme">
-</p>
-
-## The computer opponent
-
-Three difficulty levels with their own character:
-
-- **Easy** plays almost randomly, but the sheep avoid obvious traps most of the time.
-- **Medium** searches three moves ahead.
-- **Hard** uses alpha-beta search with iterative deepening; the hard wolf has its own search with a transposition table and extended search through jump sequences.
-
-I tuned the balance with thousands of simulated games between all nine difficulty pairs. The target: in hard-vs-hard play the sheep should win slightly more than half of the games, just like between good human players. The evaluation weights were also tuned automatically by self-play (SPSA).
-
-## How it's built
-
-| Area | Technology |
-|---|---|
-| Frontend | React 19, TypeScript, Vite, SVG board, PWA (service worker, offline) |
-| Backend | Cloudflare Workers, Durable Objects (one per game room, WebSockets), D1 (SQLite) |
-| Auth | Passkeys / WebAuthn, HttpOnly session cookies, rate limiting |
-| AI | Alpha-beta search in a Web Worker, self-play balancing and tuning |
-| Quality | ~200 unit tests (Vitest), 10 end-to-end suites in real Chrome and WebKit (Playwright) |
-
-- Game rules are pure functions shared by the browser and the server – the server validates every online move.
-- One Cloudflare Worker serves both the app and the API, on the free tier.
-- Privacy by design: no e-mail, no IP addresses stored, deleting a profile deletes everything.
-
-## How I built it
-
-I built the game with an AI coding agent (Claude Code). My job was the product and engineering decisions:
-
-- writing the specification and rules, including edge cases found in simulations,
-- breaking the work into detailed prompts and reviewing every result,
-- deciding on game balance, UX and privacy trade-offs,
-- insisting on tests, simulations and safe production deploys with real players.
-
-It is a practical example of how I work with AI: fast delivery without giving up on quality and control.
-
-## 🇨🇿 Česky
-
-Ovečky a vlci – stará desková hra pro dva, kterou znám z dětství, předělaná do moderní webové aplikace.
-
-- Hra proti počítači (3 obtížnosti), s kamarádem po síti i na jednom zařízení.
-- Profil bez registrace zabezpečený passkey, Elo hodnocení, žebříček a 8 odznaků.
-- Funguje na iPhonu, Androidu, Macu i Windows a i offline. Česky a anglicky.
-- Vyváženost počítače jsem ladil na tisících simulovaných partií.
-
-👉 **Zahrát si: [ovecky-a-vlci.petrstastny.workers.dev](https://ovecky-a-vlci.petrstastny.workers.dev)**
+> Tohle repozitář je prezentace projektu. Zdrojový kód je soukromý. *English below.*
 
 ---
 
-Petr Šťastný · AI & Software Developer · LinkedIn
+## O hře
+
+Dvacet oveček proti dvěma vlkům na desce ve tvaru kříže.
+
+- **Ovečky** vyhrají, když zaplní ovčinec – devět bodů za dřevěnou ohradou. Chodí jen dopředu a do stran, nikdy zpátky.
+- **Vlci** vyhrají, když sežerou 12 oveček. Skáčou přes ně jako v dámě, i několikrát za sebou, a žrát musí, kdykoli můžou. Vlk, který mohl sežrat a nesežral, ze hry vypadává.
+- Ovečky nesmí vlky zablokovat – vyhrát můžou jedině tak, že dovedou stádo domů.
+
+Je to stará lidová hra (příbuzná her *Fox and Geese* a *Halatafl*), kterou znám z dětství. Chtěl jsem verzi, která se dobře hraje na telefonu a má soupeře, se kterým je to zábava.
+
+## Co umí
+
+**Tři způsoby hry**
+- **Proti počítači** – lehká, střední a těžká obtížnost, za ovečky, za vlky nebo losem. Počítač přemýšlí na pozadí (Web Worker), takže hra běží plynule a funguje i offline.
+- **S kamarádem po síti** – pošleš kód nebo odkaz a hrajete v reálném čase přes WebSockets, s chatem, odvetou a návratem po výpadku spojení.
+- **Na jednom zařízení** – telefon nebo tablet si prostě předáváte.
+
+**Profil bez registrace**
+- Přezdívka a zvířecí avatar – žádný e-mail, žádné heslo.
+- Profil chrání **passkeys** (Face ID, Touch ID, Windows Hello, Android). Na další zařízení se přihlásíš jednorázovým kódem nebo QR.
+- **Elo hodnocení**, žebříček, historie her a statistiky.
+- **8 odznaků** za skutečný výkon – série výher proti těžkému počítači, výhra bez ztráty jediné ovečky, porážka mnohem silnějšího hráče…
+
+**Dělaná pro telefon**
+- Instalovatelná **PWA** pro iPhone, Android, Mac i Windows, funguje i offline.
+- Denní a noční vzhled, animace, zvuky a volitelná hudba na pozadí.
+- Česky i anglicky, hráči za vlky se deska otočí, zápis tahů v notaci desky.
+
+<p align="center">
+  <img src="screenshots/desktop.png" width="800" alt="Hra na počítači s historií tahů a chatem">
+  <br><em>Na počítači s historií tahů a chatem</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/multi-jump.png" width="200" alt="Víceskok se zvýrazněnou trasou">
+  <img src="screenshots/passkeys.png" width="200" alt="Passkeys v profilu">
+  <img src="screenshots/home-night.png" width="200" alt="Noční vzhled">
+</p>
+
+## Počítačový soupeř
+
+Tři obtížnosti, každá s vlastní povahou:
+
+- **Lehká** hraje skoro náhodně, ovečky se ale většinou vyhnou zjevným pastím.
+- **Střední** vidí tři tahy dopředu.
+- **Těžká** prohledává hru metodou alfa-beta s iterativním prohlubováním. Těžký vlk má vlastní hledání s tabulkou transpozic a prodlouženým hledáním v sekvencích skoků.
+
+Vyváženost jsem ladil na **tisících simulovaných partií** mezi všemi devíti dvojicemi obtížností. Cíl: když proti sobě hrají těžké obtížnosti, ovečky vyhrávají o něco víc než polovinu partií – stejně jako mezi dobrými hráči. Zkoušel jsem i automatické ladění vah hodnocení hrou počítače sám se sebou (SPSA). Nejlepší vyváženost ale nakonec daly výchozí váhy s hlubším hledáním, a ty hra používá.
+
+## Jak je postavená
+
+| Oblast | Technologie |
+|---|---|
+| Aplikace | React 19, TypeScript, Vite, deska v SVG, PWA (service worker, offline) |
+| Server | Cloudflare Workers, Durable Objects (jedna místnost = jedna hra, WebSockets), D1 (SQLite) |
+| Přihlášení | Passkeys / WebAuthn, HttpOnly session cookies, omezení počtu pokusů |
+| Umělá inteligence | Alfa-beta prohledávání ve Web Workeru, simulace a ladění vyváženosti |
+| Kvalita | 200+ unit testů (Vitest), 10 sad e2e testů ve skutečném Chromu a WebKitu (Playwright) |
+
+- Pravidla hry jsou čisté funkce, které sdílí prohlížeč i server. Server ověřuje každý online tah.
+- Jeden Cloudflare Worker obsluhuje aplikaci i API, na bezplatném tarifu.
+- Soukromí od začátku: žádný e-mail, žádné IP adresy. Smazáním profilu zmizí všechno.
+
+## Jak jsem ji vytvořil
+
+Hru jsem postavil s **AI agentem (Claude Code)**. Kód psal agent, na mně byla produktová a technická rozhodnutí:
+
+- specifikace a pravidla, včetně hraničních případů, které ukázaly simulace,
+- rozdělení práce do podrobných zadání a kontrola každého výsledku,
+- rozhodnutí o vyváženosti, uživatelském rozhraní a soukromí,
+- důraz na testy, simulace a bezpečné nasazování s reálnými hráči.
+
+Je to praktická ukázka toho, jak pracuji s AI: rychle, ale pod kontrolou a bez slev z kvality.
+
+---
+
+## 🇬🇧 English
+
+**Sheep & Wolves** – a classic two-player board game I played as a kid, rebuilt as an installable web app.
+
+- Play the computer (3 difficulty levels), a friend online, or pass one device around.
+- Profiles without registration, secured with passkeys; Elo rating, leaderboard and 8 badges.
+- Works on iPhone, Android, Mac and Windows, offline too. Czech and English.
+- Computer opponent balanced on thousands of simulated games (alpha-beta search in a Web Worker).
+- React, TypeScript, Cloudflare Workers, Durable Objects, D1, WebAuthn; 200+ unit tests and 10 e2e suites.
+- Built with an AI coding agent (Claude Code) – I wrote the specification, broke down the work, reviewed every result and owned testing and deployment.
+
+👉 **Play:** [ovecky-a-vlci.petrstastny.workers.dev/en](https://ovecky-a-vlci.petrstastny.workers.dev/en)
+
+---
+
+**Petr Šťastný** · AI & Software Developer · [LinkedIn](https://www.linkedin.com/in/petr-%C5%A1%C5%A5astn%C3%BD-581603356/)
